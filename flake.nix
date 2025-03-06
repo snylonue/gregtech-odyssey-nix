@@ -104,7 +104,7 @@
 
                 ExecStartPre = let
                   listServerMods = dir:
-                    lib.flatten (lib.attrsToList (name: type:
+                    lib.flatten (lib.mapAttrsToList (name: type:
                       if type == "directory" then [ ] else [ name ])
                       (builtins.readDir dir));
                   markManaged = file:
