@@ -103,6 +103,9 @@
                 WorkingDirectory = cfg.root;
 
                 ExecStartPre = let
+                  listServerMods = dir:
+                    lib.flatten (lib.attrsToList (name: type:
+                      if type == "directory" then [ ] else [ name ]));
                   markManaged = file:
                     ''echo "${file}" >> .nix-minecraft-managed'';
                   cleanAllManaged = ''
@@ -113,11 +116,12 @@
                     fi
                   '';
                   symlinks = {
-                    "mods" = "${gto}/.minecraft/mods";
                     "defaultconfigs" = "${gto}/.minecraft/defaultconfigs";
                     "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
-                  };
+                  } // map (name: {
+                    "mods/${name}" = "${gto}/.minecraft/mods/${name}";
+                  }) (listServerMods "${gto}/.minecraft/mods");
                   mkSymlinks = concatStringsSep "\n" (mapAttrsToList (n: v: ''
                     mkdir -p "$(dirname "${n}")"
 
