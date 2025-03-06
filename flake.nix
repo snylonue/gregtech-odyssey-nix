@@ -128,6 +128,7 @@
                   # copy config to working directory since it will be written to at runtime
                   patchConfig = ''
                     cp -r "${gto}/.minecraft/config" .
+                    chmod +w -R config/
                     ${markManaged "config"}
                   '';
                 in getExe (pkgs.writeShellApplication {
