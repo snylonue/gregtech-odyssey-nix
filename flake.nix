@@ -66,6 +66,11 @@
           options = let inherit (lib) types mkOption;
           in {
             services.gregtech-odyssey = {
+              enable = mkOption {
+                type = types.bool;
+                default = false;
+              };
+
               root = mkOption { type = types.path; };
 
               eula = mkOption {
@@ -76,7 +81,7 @@
           };
 
           config = let cfg = config.services.gregtech-odyssey;
-          in {
+          in lib.mkIf cfg.enable {
             assertions = [{
               assertion = cfg.eula;
               message =
