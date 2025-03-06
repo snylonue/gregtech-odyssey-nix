@@ -100,6 +100,8 @@
               Install.WantedBy = [ "multi-user.target" ];
 
               Service = {
+                WorkingDirectory = cfg.root;
+
                 ExecStartPre = let
                   symlinks = {
                     "mods" = "${gto}/.minecraft/mods";
