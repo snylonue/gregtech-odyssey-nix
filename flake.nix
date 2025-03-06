@@ -109,7 +109,7 @@
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
                   };
                   mkSymlinks = concatStringsSep "\n" (mapAttrsToList (n: v: ''
-                    mkdir -p "$(dirname "${n}")"
+                    # mkdir -p "$(dirname "${n}")"
 
                     ln -sf "${v}" "${n}"
                   '') symlinks);
