@@ -105,7 +105,8 @@
                 ExecStartPre = let
                   listServerMods = dir:
                     lib.flatten (lib.attrsToList (name: type:
-                      if type == "directory" then [ ] else [ name ]));
+                      if type == "directory" then [ ] else [ name ])
+                      (builtins.readDir dir));
                   markManaged = file:
                     ''echo "${file}" >> .nix-minecraft-managed'';
                   cleanAllManaged = ''
