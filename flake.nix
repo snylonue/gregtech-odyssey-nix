@@ -93,7 +93,7 @@
             systemd.user.services.gregtech-odyssey = let
               inherit (lib) concatStringsSep mapAttrsToList getExe;
               gto = gregtech-odyssey;
-              forge = self.packages.${pkgs.system}.minecraft-forge;
+              server = self.packages.${pkgs.system}.server;
             in {
               Unit = { Description = "server of GregTech Odyssey"; };
 
@@ -120,7 +120,7 @@
                   '';
                 });
 
-                ExecStart = "${getExe forge} -Xmx2g";
+                ExecStart = "${getExe server} -Xmx2g";
               };
             };
           };
