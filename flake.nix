@@ -46,7 +46,7 @@
 
             installPhase = ''
               cat <<\EOF >>$out/bin/server
-              #!/usr/bin/env bash
+              #!${pkgs.lib.getExe pkgs.bash}
               ${pkgs.jre_headless}/bin/java "$@" "@${
                 builtins.placeholder "out"
               }/bin/unix_args.txt" nogui
