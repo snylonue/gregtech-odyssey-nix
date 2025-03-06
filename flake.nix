@@ -120,8 +120,9 @@
                     "defaultconfigs" = "${gto}/.minecraft/defaultconfigs";
                     "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
-                  } // builtins.listToAttrs (map (name: {
-                    "mods/${name}" = "${gto}/.minecraft/mods/${name}";
+                  } // builtins.listToAttrs (map (mod: {
+                    name = "mods/${mod}";
+                    value = "${gto}/.minecraft/mods/${mod}";
                   }) (listServerMods "${gto}/.minecraft/mods"));
                   mkSymlinks = concatStringsSep "\n" (mapAttrsToList (n: v: ''
                     mkdir -p "$(dirname "${n}")"
