@@ -103,6 +103,15 @@
                 WorkingDirectory = cfg.root;
 
                 ExecStartPre = let
+                  markManaged = file:
+                    ''echo "${file}" >> .nix-minecraft-managed'';
+                  cleanAllManaged = ''
+                    if [ -e .nix-minecraft-managed ]; then
+                      readarray -t to_delete < .nix-minecraft-managed
+                      rm -rf "''${to_delete[@]}"
+                      rm .nix-minecraft-managed
+                    fi
+                  '';
                   symlinks = {
                     "mods" = "${gto}/.minecraft/mods";
                     "config" = "${gto}/.minecraft/config";
@@ -114,10 +123,13 @@
                     mkdir -p "$(dirname "${n}")"
 
                     ln -sf "${v}" "${n}"
+
+                    ${markManaged n}
                   '') symlinks);
                 in getExe (pkgs.writeShellApplication {
                   name = "minecraft-server-gregtech-odyssey-start-pre";
                   text = ''
+                    ${cleanAllManaged}
                     ${mkSymlinks}
                   '';
                   runtimeInputs = with pkgs; [ coreutils ];
