@@ -114,7 +114,6 @@
                   '';
                   symlinks = {
                     "mods" = "${gto}/.minecraft/mods";
-                    "config" = "${gto}/.minecraft/config";
                     "defaultconfigs" = "${gto}/.minecraft/defaultconfigs";
                     "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
@@ -126,11 +125,17 @@
 
                     ${markManaged n}
                   '') symlinks);
+                  # copy config to working directory since it will be written to at runtime
+                  patchConfig = ''
+                    cp -r "${gto}/.minecraft/config" .
+                    ${markManaged "config"}
+                  '';
                 in getExe (pkgs.writeShellApplication {
                   name = "minecraft-server-gregtech-odyssey-start-pre";
                   text = ''
                     ${cleanAllManaged}
                     ${mkSymlinks}
+                    ${patchConfig}
                   '';
                   runtimeInputs = with pkgs; [ coreutils ];
                 });
