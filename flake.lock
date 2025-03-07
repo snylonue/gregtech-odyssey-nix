@@ -21,11 +21,11 @@
     "gregtech-odyssey": {
       "flake": false,
       "locked": {
-        "lastModified": 1741089293,
-        "narHash": "sha256-jlTHmPq8AmyC6ksXX0quUHMNqYreesH6fVwTkcw4o2Q=",
+        "lastModified": 1741346645,
+        "narHash": "sha256-prthfkDIN+Km1Kb9fZORKaEh/XxGee1JXOmCSmrg4GQ=",
         "owner": "nutant233",
         "repo": "GregTech-Odyssey",
-        "rev": "db81b1b08f9fc3f2dad7688ed7678755be18a6e5",
+        "rev": "3cb44974892dae12786adc0b48569091942f1028",
         "type": "gitlab"
       },
       "original": {

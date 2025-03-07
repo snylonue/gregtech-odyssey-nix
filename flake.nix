@@ -120,7 +120,6 @@
                     fi
                   '';
                   symlinks = {
-                    "defaultconfigs" = "${gto}/.minecraft/defaultconfigs";
                     "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
                   } // builtins.listToAttrs (map (mod: {
@@ -135,10 +134,15 @@
                     ${markManaged n}
                   '') symlinks);
                   # copy config to working directory since it will be written to at runtime
+                  # defaultconfigs is copied too to make sure config files have write permissions
                   patchConfig = ''
                     cp -r "${gto}/.minecraft/config" .
                     chmod +w -R config/
                     ${markManaged "config"}
+
+                    cp -r "${gto}/.minecraft/defaultconfigs" .
+                    chmod +w -R defaultconfigs
+                    ${markManaged "defaultconfigs"}
                   '';
                 in getExe (pkgs.writeShellApplication {
                   name = "minecraft-server-gregtech-odyssey-start-pre";
