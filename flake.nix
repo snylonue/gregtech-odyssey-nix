@@ -77,6 +77,19 @@
                 type = types.bool;
                 default = false;
               };
+
+              ops = mkOption {
+                type = types.listOf (types.attrsOf {
+                  uuid = mkOption { type = types.str; };
+                  name = mkOption { type = types.str; };
+                  level = mkOption {
+                    type = types.int;
+                    default = 4;
+                  };
+                });
+
+                default = [ ];
+              };
             };
           };
 
@@ -122,6 +135,8 @@
                   symlinks = {
                     "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
+                    "ops.json" =
+                      pkgs.writeText "ops.json" (builtins.toJson cfg.ops);
                   } // builtins.listToAttrs (map (mod: {
                     name = "mods/${mod}";
                     value = "${gto}/.minecraft/mods/${mod}";
