@@ -136,7 +136,7 @@
                     "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
                     "ops.json" =
-                      pkgs.writeText "ops.json" (builtins.toJson cfg.ops);
+                      pkgs.writeText "ops.json" (builtins.toJSON cfg.ops);
                   } // builtins.listToAttrs (map (mod: {
                     name = "mods/${mod}";
                     value = "${gto}/.minecraft/mods/${mod}";
