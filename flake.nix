@@ -79,15 +79,16 @@
               };
 
               ops = mkOption {
-                type = types.listOf (types.attrsOf {
-                  uuid = mkOption { type = types.str; };
-                  name = mkOption { type = types.str; };
-                  level = mkOption {
-                    type = types.int;
-                    default = 4;
+                type = types.listOf (types.submodule {
+                  options = {
+                    uuid = mkOption { type = types.str; };
+                    name = mkOption { type = types.str; };
+                    level = mkOption {
+                      type = types.int;
+                      default = 4;
+                    };
                   };
                 });
-
                 default = [ ];
               };
             };
