@@ -14,14 +14,14 @@
         packages = {
           minecraft-forge = let
             minecraftVersion = "1.20.1";
-            forgeVersion = "47.3.32";
+            forgeVersion = "47.4.0";
             version = "${minecraftVersion}-${forgeVersion}";
           in pkgs.runCommandNoCC "forge-${version}" {
             inherit version;
             nativeBuildInputs = with pkgs; [ cacert curl jre_headless ];
 
             outputHashMode = "recursive";
-            outputHash = "sha256-yuTaVeCLIngz85qSAq0EnjAFfL2sS7MeLRk58A5c2jI=";
+            outputHash = "sha256-EtqyOX9REjT5sCxm2s+dhSzXnIvuFEhdFqlwgVbEugw=";
           } ''
             mkdir -p "$out"
 
