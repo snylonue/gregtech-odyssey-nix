@@ -111,7 +111,7 @@
             in {
               Unit = { Description = "server of GregTech Odyssey"; };
 
-              Install.WantedBy = [ "multi-user.target" ];
+              Install.WantedBy = [ "default.target" ];
 
               Service = {
                 WorkingDirectory = cfg.root;
