@@ -91,6 +91,18 @@
                 });
                 default = [ ];
               };
+
+              maxMemory = mkOption {
+                type = types.str;
+                default = "2G";
+              };
+
+              minMemory = mkOption { type = types.str; };
+
+              extraJavaArgs = mkOption {
+                type = types.str;
+                default = "";
+              };
             };
           };
 
@@ -170,7 +182,12 @@
                   runtimeInputs = with pkgs; [ coreutils ];
                 });
 
-                ExecStart = "${getExe server} -Xmx2g";
+                ExecStart = let
+                  args = (lib.optionalString (cfg.maxMemory != null)
+                    "-Xmx${cfg.maxMemory} ")
+                    + (lib.optionalString (cfg.minMemory != null)
+                      "-Xms{cfg.minMemory} ") + cfg.extraJavaArgs;
+                in "${getExe server} ${args}";
               };
             };
           };
