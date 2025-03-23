@@ -97,7 +97,10 @@
                 default = "2G";
               };
 
-              minMemory = mkOption { type = types.str; };
+              minMemory = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+              };
 
               extraJavaArgs = mkOption {
                 type = types.str;
