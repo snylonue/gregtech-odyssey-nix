@@ -135,7 +135,8 @@
                   listServerMods = dir:
                     lib.flatten (lib.mapAttrsToList (name: type:
                       if type == "directory"
-                      || lib.strings.hasPrefix "jecharacters" name then
+                      || lib.strings.hasPrefix "jecharacters" name
+                      || lib.strings.hasPrefix "Fastquit" name then
                         [ ]
                       else
                         [ name ]) (builtins.readDir dir));
