@@ -29,6 +29,8 @@
 
             outputHashMode = "recursive";
             outputHash = "sha256-EtqyOX9REjT5sCxm2s+dhSzXnIvuFEhdFqlwgVbEugw=";
+
+            JDK_JAVA_OPTIONS = "-Djava.net.useSystemProxies=true";
           } ''
             mkdir -p "$out"
 
