@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733328505,
+        "narHash": "sha256-NeCCThCEP3eCl2l/+27kNNK7QrwZB1IJCrXfrbv5oqU=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -18,20 +34,28 @@
         "type": "github"
       }
     },
-    "gregtech-odyssey": {
-      "flake": false,
+    "nix-minecraft": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1741346645,
-        "narHash": "sha256-prthfkDIN+Km1Kb9fZORKaEh/XxGee1JXOmCSmrg4GQ=",
-        "owner": "nutant233",
-        "repo": "GregTech-Odyssey",
-        "rev": "3cb44974892dae12786adc0b48569091942f1028",
-        "type": "gitlab"
+        "lastModified": 1742608263,
+        "narHash": "sha256-NMd7fpj04y0srAbHa19o7xMk19MzIrwkOKz57mxJC5E=",
+        "owner": "Infinidoge",
+        "repo": "nix-minecraft",
+        "rev": "341dc497af2d985ec97a9b5c935674b885706e52",
+        "type": "github"
       },
       "original": {
-        "owner": "nutant233",
-        "repo": "GregTech-Odyssey",
-        "type": "gitlab"
+        "owner": "Infinidoge",
+        "repo": "nix-minecraft",
+        "type": "github"
       }
     },
     "nixpkgs": {
@@ -53,7 +77,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "gregtech-odyssey": "gregtech-odyssey",
+        "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs"
       }
     },

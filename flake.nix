@@ -1,15 +1,22 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    gregtech-odyssey = {
-      url = "gitlab:nutant233/GregTech-Odyssey";
-      flake = false;
-    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
-  outputs = { self, nixpkgs, flake-utils, gregtech-odyssey, ... }:
+  outputs = { self, nixpkgs, flake-utils, nix-minecraft, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ nix-minecraft.overlay ];
+        };
       in {
         packages = {
           minecraft-forge = let
@@ -60,6 +67,14 @@
                 --replace-fail "libraries" "${forge}/libraries"
             '';
           };
+
+          modpack = let inherit (pkgs) fetchPackwizModpack;
+          in fetchPackwizModpack {
+            url =
+              "https://github.com/GregTech-Odyssey/GregTech-Odyssey/blob/c36cba3f960bea96af87a757460b1a6ef7a54950/pack.toml";
+
+            packHash = "sha256-esg5fZiQC+XODC5eQ9g/VGRv8qtVKungWx+GANw+O1I=";
+          };
         };
       }) // {
         homeManagerModules.default = { config, lib, pkgs, ... }: {
@@ -106,6 +121,11 @@
                 type = types.str;
                 default = "";
               };
+
+              package = mkOption {
+                type = types.package;
+                default = self.packages.${pkgs.system}.modpack;
+              };
             };
           };
 
@@ -121,7 +141,7 @@
 
             systemd.user.services.gregtech-odyssey = let
               inherit (lib) concatStringsSep mapAttrsToList getExe;
-              gto = gregtech-odyssey;
+              gto = config.package;
               server = self.packages.${pkgs.system}.server;
             in {
               Unit = { Description = "server of GregTech Odyssey"; };
@@ -150,14 +170,11 @@
                     fi
                   '';
                   symlinks = {
-                    "kubejs" = "${gto}/.minecraft/kubejs";
                     "eula.txt" = pkgs.writeText "eula.txt" "eula = true";
                     "ops.json" =
                       pkgs.writeText "ops.json" (builtins.toJSON cfg.ops);
-                  } // builtins.listToAttrs (map (mod: {
-                    name = "mods/${mod}";
-                    value = "${gto}/.minecraft/mods/${mod}";
-                  }) (listServerMods "${gto}/.minecraft/mods"));
+                    "mods" = "${gto}/mods";
+                  };
                   mkSymlinks = concatStringsSep "\n" (mapAttrsToList (n: v: ''
                     mkdir -p "$(dirname "${n}")"
 
@@ -168,11 +185,11 @@
                   # copy config to working directory since it will be written to at runtime
                   # defaultconfigs is copied too to make sure config files have write permissions
                   patchConfig = ''
-                    cp -r "${gto}/.minecraft/config" .
+                    cp -r "${gto}/config" .
                     chmod +w -R config/
                     ${markManaged "config"}
 
-                    cp -r "${gto}/.minecraft/defaultconfigs" .
+                    cp -r "${gto}/defaultconfigs" .
                     chmod +w -R defaultconfigs
                     ${markManaged "defaultconfigs"}
                   '';
