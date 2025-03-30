@@ -141,7 +141,7 @@
 
             systemd.user.services.gregtech-odyssey = let
               inherit (lib) concatStringsSep mapAttrsToList getExe;
-              gto = config.package;
+              gto = cfg.package;
               server = self.packages.${pkgs.system}.server;
             in {
               Unit = { Description = "server of GregTech Odyssey"; };
