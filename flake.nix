@@ -73,7 +73,7 @@
           modpack = let inherit (pkgs) fetchPackwizModpack;
           in fetchPackwizModpack {
             url =
-              "https://github.com/GregTech-Odyssey/GregTech-Odyssey/blob/c36cba3f960bea96af87a757460b1a6ef7a54950/pack.toml";
+              "https://github.com/GregTech-Odyssey/GregTech-Odyssey/raw/c36cba3f960bea96af87a757460b1a6ef7a54950/pack.toml";
 
             packHash = "sha256-esg5fZiQC+XODC5eQ9g/VGRv8qtVKungWx+GANw+O1I=";
           };
@@ -154,14 +154,6 @@
                 WorkingDirectory = cfg.root;
 
                 ExecStartPre = let
-                  listServerMods = dir:
-                    lib.flatten (lib.mapAttrsToList (name: type:
-                      if type == "directory"
-                      || lib.strings.hasPrefix "jecharacters" name
-                      || lib.strings.hasPrefix "Fastquit" name then
-                        [ ]
-                      else
-                        [ name ]) (builtins.readDir dir));
                   markManaged = file:
                     ''echo "${file}" >> .nix-minecraft-managed'';
                   cleanAllManaged = ''
