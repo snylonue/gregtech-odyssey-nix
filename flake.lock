@@ -34,6 +34,22 @@
         "type": "github"
       }
     },
+    "gregtech-odyssey": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743520838,
+        "narHash": "sha256-pESN2o51n88xyrU8A+mr7VbWCAAXtsc5Y/PknCxSO7k=",
+        "owner": "GregTech-Odyssey",
+        "repo": "GregTech-Odyssey",
+        "rev": "127a70869182e73b67decf3e23258e7a63ec4d39",
+        "type": "github"
+      },
+      "original": {
+        "owner": "GregTech-Odyssey",
+        "repo": "GregTech-Odyssey",
+        "type": "github"
+      }
+    },
     "nix-minecraft": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -77,6 +93,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "gregtech-odyssey": "gregtech-odyssey",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs"
       }

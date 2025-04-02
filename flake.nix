@@ -9,8 +9,12 @@
         flake-utils.follows = "flake-utils";
       };
     };
+    gregtech-odyssey = {
+      url = "github:GregTech-Odyssey/GregTech-Odyssey";
+      flake = false;
+    };
   };
-  outputs = { self, nixpkgs, flake-utils, nix-minecraft, ... }:
+  outputs = { self, nixpkgs, flake-utils, nix-minecraft, gregtech-odyssey, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -29,8 +33,6 @@
 
             outputHashMode = "recursive";
             outputHash = "sha256-EtqyOX9REjT5sCxm2s+dhSzXnIvuFEhdFqlwgVbEugw=";
-
-            JDK_JAVA_OPTIONS = "-Djava.net.useSystemProxies=true";
           } ''
             mkdir -p "$out"
 
@@ -77,6 +79,12 @@
 
             packHash = "sha256-esg5fZiQC+XODC5eQ9g/VGRv8qtVKungWx+GANw+O1I=";
           };
+
+          gto = let buildPackwizModpack = pkgs.callPackage ./buildPackwizModpack.nix {}; in
+            buildPackwizModpack {
+              src = gregtech-odyssey;
+              name = "gregtech-odyssey";
+            };
         };
       }) // {
         homeManagerModules.default = { config, lib, pkgs, ... }: {
