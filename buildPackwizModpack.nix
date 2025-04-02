@@ -15,14 +15,15 @@ let
       fetchurl {
         name = filename;
         "${download.hash-format}" = download.hash;
-        inherit (download) url;
+        url = builtins.replaceStrings [ " " ] [ "%20" ] download.url;
       }
     else
       fetchurl {
         name = filename;
         "${download.hash-format}" = download.hash;
         url = let file-id = toString f.update.curseforge.file-id;
-        in "https://edge.forgecdn.net/files/${builtins.substring 0 4 file-id}/${
+        in builtins.replaceStrings [ " " ] [ "%20" ]
+        "https://edge.forgecdn.net/files/${builtins.substring 0 4 file-id}/${
           builtins.substring 4 (builtins.stringLength file-id - 4) file-id
         }/${filename}";
       };
