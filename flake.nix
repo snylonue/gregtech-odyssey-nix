@@ -2,25 +2,14 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-minecraft = {
-      url = "github:Infinidoge/nix-minecraft";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
     gregtech-odyssey = {
       url = "github:GregTech-Odyssey/GregTech-Odyssey";
       flake = false;
     };
   };
-  outputs = { self, nixpkgs, flake-utils, nix-minecraft, gregtech-odyssey, ... }:
+  outputs = { self, nixpkgs, flake-utils, gregtech-odyssey, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ nix-minecraft.overlay ];
-        };
+      let pkgs = import nixpkgs { inherit system; };
       in {
         packages = {
           minecraft-forge = let
@@ -72,19 +61,13 @@
             '';
           };
 
-          modpack = let inherit (pkgs) fetchPackwizModpack;
-          in fetchPackwizModpack {
-            url =
-              "https://github.com/GregTech-Odyssey/GregTech-Odyssey/raw/c36cba3f960bea96af87a757460b1a6ef7a54950/pack.toml";
-
-            packHash = "sha256-esg5fZiQC+XODC5eQ9g/VGRv8qtVKungWx+GANw+O1I=";
+          modpack = let
+            buildPackwizModpack =
+              pkgs.callPackage ./buildPackwizModpack.nix { };
+          in buildPackwizModpack {
+            src = gregtech-odyssey;
+            name = "gregtech-odyssey";
           };
-
-          gto = let buildPackwizModpack = pkgs.callPackage ./buildPackwizModpack.nix {}; in
-            buildPackwizModpack {
-              src = gregtech-odyssey;
-              name = "gregtech-odyssey";
-            };
         };
       }) // {
         homeManagerModules.default = { config, lib, pkgs, ... }: {
