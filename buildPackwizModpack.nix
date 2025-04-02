@@ -9,7 +9,7 @@ let
       components = lib.strings.splitString "/" path;
       prefix = lib.init components;
     in lib.strings.concatStringsSep "/" prefix;
-  replaceName = path: name: (getParent path) + name;
+  replaceName = path: name: (getParent path) + "/" + name;
   fetchMetaFile = { filename, download, ... }@f:
     if builtins.hasAttr "url" download then
       fetchurl {
@@ -47,12 +47,13 @@ in stdenvNoCC.mkDerivation {
   dontUnpack = true;
   dontConfigure = true;
 
-  installPhase = (''
+  installPhase = let concat = lib.strings.concatMapStringsSep "\n";
+  in (''
     mkdir -p $out
-  '' + (lib.strings.concatMapStringsSep "\n" (f: ''
+  '' + (concat (f: ''
     mkdir -p "$out/${getParent f}"
     cp "${src}/${f}" "$out/${f}"
-  '') staticFiles) + (lib.strings.concatMapStringsSep "\n" ({ path, file, ... }: ''
+  '') staticFiles) + (concat ({ path, file, ... }: ''
     mkdir -p "$out/${getParent path}"
     ln -s "${file}" "$out/${path}"
   '') metaFiles));
