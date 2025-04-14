@@ -73,6 +73,8 @@
           modpack = buildPackwizModpack {
             src = gregtech-odyssey;
             name = "gregtech-odyssey";
+            allowMissingFilePred = path:
+              pkgs.lib.hasInfix "embeddium-options" path;
           };
         };
       }) // {
