@@ -21,11 +21,11 @@
     "gregtech-odyssey": {
       "flake": false,
       "locked": {
-        "lastModified": 1743520838,
-        "narHash": "sha256-pESN2o51n88xyrU8A+mr7VbWCAAXtsc5Y/PknCxSO7k=",
+        "lastModified": 1744621410,
+        "narHash": "sha256-HSqApXUh32im3XTGoWu1njw1jEYFopWa0TC5tI0j/as=",
         "owner": "GregTech-Odyssey",
         "repo": "GregTech-Odyssey",
-        "rev": "127a70869182e73b67decf3e23258e7a63ec4d39",
+        "rev": "1b06e64413fe79c95537c23bf786da40ee207bc7",
         "type": "github"
       },
       "original": {
@@ -60,11 +60,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744296601,
-        "narHash": "sha256-5232Wy/DlgngDEzIeKx3BkOJ6UVjXZ7X4d/7ahu0ZDk=",
+        "lastModified": 1744626561,
+        "narHash": "sha256-cfh2EDM8ih9TxDtYRcFXZXLVKFJvng/r86uxAdrJiNg=",
         "owner": "snylonue",
         "repo": "packwiz2nix",
-        "rev": "985fb5bba3f3a6e9de192dc9bf38f62fd43ed34d",
+        "rev": "75d5638a42fab756ce0a474b1bbc072dcb2ba4d2",
         "type": "github"
       },
       "original": {
