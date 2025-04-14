@@ -50,11 +50,35 @@
         "type": "github"
       }
     },
+    "packwiz2nix": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1744296601,
+        "narHash": "sha256-5232Wy/DlgngDEzIeKx3BkOJ6UVjXZ7X4d/7ahu0ZDk=",
+        "owner": "snylonue",
+        "repo": "packwiz2nix",
+        "rev": "985fb5bba3f3a6e9de192dc9bf38f62fd43ed34d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "snylonue",
+        "repo": "packwiz2nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "gregtech-odyssey": "gregtech-odyssey",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "packwiz2nix": "packwiz2nix"
       }
     },
     "systems": {

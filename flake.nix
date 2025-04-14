@@ -6,10 +6,19 @@
       url = "github:GregTech-Odyssey/GregTech-Odyssey";
       flake = false;
     };
+    packwiz2nix = {
+      url = "github:snylonue/packwiz2nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
-  outputs = { self, nixpkgs, flake-utils, gregtech-odyssey, ... }:
+  outputs = { self, nixpkgs, flake-utils, gregtech-odyssey, packwiz2nix, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; };
+      let
+        pkgs = import nixpkgs { inherit system; };
+        inherit (packwiz2nix.packages.${system}) buildPackwizModpack;
       in {
         packages = {
           minecraft-forge = let
@@ -61,10 +70,7 @@
             '';
           };
 
-          modpack = let
-            buildPackwizModpack =
-              pkgs.callPackage ./buildPackwizModpack.nix { };
-          in buildPackwizModpack {
+          modpack = buildPackwizModpack {
             src = gregtech-odyssey;
             name = "gregtech-odyssey";
           };
